@@ -35,7 +35,7 @@ jobs:
           docker pull kishoredk/test:${{ env.IMAGE_TAG }}
     
           # Stop and remove container using port 8000
-          CONTAINER_ID=\$(docker ps --filter 'publish=8000' --format '{{.ID}}')
+          CONTAINER_ID=\$(docker ps --filter 'publish=8080' --format '{{.ID}}')
           if [ ! -z \"\$CONTAINER_ID\" ]; then
             echo 'Stopping container using port 8000...'
             docker stop \$CONTAINER_ID && docker rm \$CONTAINER_ID
