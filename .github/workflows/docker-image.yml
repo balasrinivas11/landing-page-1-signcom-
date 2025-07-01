@@ -20,9 +20,9 @@ jobs:
         HOST: ${{ secrets.AZURE_HOST }}
         USER: ${{ secrets.AZURE_USER }}
         PASSWORD: ${{ secrets.AZURE_PASSWORD }}
-        REPO_URL: ${{ secrets.REPO_URL }}  # Optional if you use HTTPS cloning on the VM
+        REPO_URL: ${{ secrets.REPO_URL }}
       run: |
-        sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
+        sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$HOST << EOF
           echo "📁 Navigating to app directory..."
           cd /home/$USER/landing-page-1-signcom-
 
@@ -32,10 +32,12 @@ jobs:
           echo "✅ Code updated on Azure VM"
           docker build -t kislaish .
 
-           CONTAINER_ID=\$(docker ps --filter 'publish=80' --format '{{.ID}}')
-          if [ ! -z \"\$CONTAINER_ID\" ]; then
-            echo 'Stopping container using port 8000...'
+          CONTAINER_ID=\$(docker ps --filter 'publish=80' --format '{{.ID}}')
+          if [ ! -z "\$CONTAINER_ID" ]; then
+            echo "🛑 Stopping container using port 80..."
             docker stop \$CONTAINER_ID && docker rm \$CONTAINER_ID
           fi
 
+          echo "🚀 Starting new container..."
+          docker run -d -p 80:80 kislaish
         EOF
