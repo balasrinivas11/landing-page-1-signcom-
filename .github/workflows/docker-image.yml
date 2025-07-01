@@ -30,4 +30,5 @@ jobs:
           git pull origin main
 
           echo "✅ Code updated on Azure VM"
+          docker build -t kislaish .
         EOF
