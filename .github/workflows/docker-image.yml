@@ -21,4 +21,4 @@ jobs:
         USER: ${{ secrets.AZURE_USER }}
         PASSWORD: ${{ secrets.AZURE_PASSWORD }}
       run: |
-        sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$HOST "
+        sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$HOST
