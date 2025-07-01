@@ -31,4 +31,11 @@ jobs:
 
           echo "✅ Code updated on Azure VM"
           docker build -t kislaish .
+
+           CONTAINER_ID=\$(docker ps --filter 'publish=80' --format '{{.ID}}')
+          if [ ! -z \"\$CONTAINER_ID\" ]; then
+            echo 'Stopping container using port 8000...'
+            docker stop \$CONTAINER_ID && docker rm \$CONTAINER_ID
+          fi
+
         EOF
